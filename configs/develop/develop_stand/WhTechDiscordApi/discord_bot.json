@@ -1,0 +1,7 @@
+{
+  "discord_bot_token": "Bot {{discord_bot_token}}",
+  "discord_bot_client_id": "{{discord_bot_client_id}}",
+  "discord_bot_client_secret": "{{discord_bot_client_secret}}",
+  "discord_oauth2_api_callback": "http://wh-tech-back01.dl.wb.ru/srv/wh_tech_discord_api/api/discord/api_call_back",
+  "discord_server_id": 542395576025743380
+}

@@ -1,0 +1,104 @@
+title: Discord Api
+description: |
+  Сервис для взаимодействия с Discord.
+  ### Стандартные ошибки, общие для всех API:
+  - статус 400, ошибка валидации входных параметров;
+  - статус 401, ошибка проверки авторизации запроса;
+  - статус 403, нет прав доступа;
+  - статус 404, нет данных по запросу;
+  - статус 500, ошибка сервиса.
+
+  Тело ошибок представлено в формате
+  ```json
+  {
+    "errors": [
+      {
+        "error": "error_code",
+        "message": "error message to user",
+        "detail": "some error details data"
+      }
+    ]
+  }
+  ```
+
+httpApis:
+  - title: Возвращает ссылку на которую необходимо перенаправить пользователя
+    api: GET|api/discord/add_user_to_server
+    auth_type: basic+e
+    do: CUSTOM|AddUserToServer|BODY
+    responses:
+      - code: 200
+        description: ссылка для редиректа пользователя
+
+  - title: На эту ручку API Discord-а отправляет данные об участнике прошедшего аутентификацию OAUTH2.0
+    api: GET|api/discord/api_call_back
+    auth_type: without
+    query:
+      type_name: Query
+      fields:
+        - Name: Code
+          Type: "*string"
+          Tag: uri:"code" binding:"omitempty,max=50"
+        - Name: State
+          Type: string
+          Tag: uri:"state" binding:"required,max=600"
+        - Name: Error
+          Type: "*string"
+          Tag: uri:"error" binding:"omitempty,max=50"
+        - Name: ErrorDescription
+          Type: "*string"
+          Tag: uri:"error_description" binding:"omitempty,max=200"
+    do: CUSTOM|ApiCallBack|code;state;error;error_description
+    responses:
+      - code: 303
+        description: переадресация на сервер wb_wh в дискорде
+
+  - title: Забанить пользователя сервера
+    api: POST|api/discord/ban_member
+    auth_type: basic+e
+    body:
+      structure_name: Data
+      schema:
+        - type_name: Data
+          fields:
+            - Name: UserID
+              Type: string
+              Tag: 'json:"user_id" binding:"required,max=50"'
+            - Name: Reason
+              Type: "*string"
+              Tag: 'json:"reason" binding:"omitempty,max=512"'
+    do: CUSTOM|BanMember|BODY
+    responses:
+      - code: 204
+        description: успешный результат
+      - code: 400
+        description: ошибка валидации данных
+
+  - title: Удалить пользователя с сервера
+    api: POST|api/discord/kick_member
+    auth_type: basic+e
+    body:
+      structure_name: Data
+      schema:
+        - type_name: Data
+          fields:
+            - Name: UserID
+              Type: string
+              Tag: 'json:"user_id" binding:"required,max=50"'
+            - Name: Reason
+              Type: "*string"
+              Tag: 'json:"reason" binding:"omitempty,max=512"'
+    do: CUSTOM|KickMember|BODY
+    responses:
+      - code: 204
+        description: успешный результат
+      - code: 400
+        description: ошибка валидации данных
+
+  - title: Проверить валиден ли токен бота
+    api: GET|api/discord/check_valid_token
+    auth_type: basic+e
+    do: CUSTOM|CheckValidToken|
+    responses:
+      - code: 204
+        description: успешный результат

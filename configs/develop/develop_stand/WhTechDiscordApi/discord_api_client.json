@@ -1,0 +1,14 @@
+{
+  "urls": [
+    "https://discord.com"
+  ],
+  "auth": {
+    "type": "without",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+
+  "response_timeout": "10s",
+  "retry_count": 2
+}

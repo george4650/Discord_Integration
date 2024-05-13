@@ -1,0 +1,29 @@
+### STATUS 200
+GET localhost:8080/api/discord/add_user_to_server?employee_id=1034222
+Content-Type: application/json
+Authorization: Basic admin test
+
+### STATUS 204
+POST localhost:8080/api/discord/ban_member?employee_id=1029871
+Content-Type: application/json
+Authorization: Basic admin test
+
+{
+  "user_id": "1215564682589638657",
+  "reason": "Сотрудник не aaaaaaaaaaaa"
+}
+
+### STATUS 204
+POST localhost:8080/api/discord/kick_member?employee_id=1029871
+Content-Type: application/json
+Authorization: Basic admin test
+
+{
+  "user_id": "1215564682589638657",
+  "reason": "Сотрудник провинился"
+}
+
+### STATUS 200
+GET localhost:8080/api/discord/check_valid_token?employee_id=1029871
+Content-Type: application/json
+Authorization: Basic admin test
